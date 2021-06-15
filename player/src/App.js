@@ -1,9 +1,14 @@
 import './App.css';
+import VideoPlayer from './components/VideoPlayer';
 
 function App() {
   return (
     <div className="App">
-      <h1>Henlo anshu bro!</h1>
+      <h1 className="logo">Theatrical</h1>
+      <div className="player-container">
+        {/* takes in URL attribute */}
+        <VideoPlayer />
+      </div>
     </div>
   );
 }
