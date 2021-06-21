@@ -1,0 +1,10 @@
+@font-face {
+   font-family: Soulcraft_UC;
+   src: url("./fonts/SoulcraftGX.ttf");
+   font-stretch: 50%;
+}
+@font-face {
+   font-family: Soulcraft_UE;
+   src: url("./fonts/SoulcraftGX.ttf");
+   font-stretch: 200%;
+}
