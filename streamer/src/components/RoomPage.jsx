@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player';
 import styled from 'styled-components'
+const urlparser= require("urlparser");
+
 export default class RoomPage extends Component {
    constructor(props) {
 		super(props);
+      let vrl=urlparser.parse(window.location.toString()).query.params.vrl;
       this.state={
          playing:true,
          duration: 0,
          controls:true,
-         url:null,
-
+         url:vrl||null,
       }
       this.player=React.createRef();
       this.setState({url: this.props.url});
@@ -26,49 +28,18 @@ export default class RoomPage extends Component {
          </Background>
 		)
 	}
-   // ref=player=>{
-   //    this.player=player;
-   // }
    // componentDidMount(){
-   //    var video = document.querySelector('.video-player video');
-   //    var nav=document.querySelector('navbar');
-   //    var i = null;
-
-   //    video.addEventListener('pause', function () {
-   //       nav.show();
-   //       // video has paused, so if the caption fadeout timer has started, cancel it
-   //       clearTimeout(i);
-   //    })
-
-   //    video.addEventListener('playing', function () {
-   //       nav.delay(2500).fadeOut();    
-   //    })
-
-
-   //    Background.mousemove(function () {
-   //       clearTimeout(i);
-   //       // only start the timer if the video is not paused
-   //       if (!video.paused) {
-   //          nav.fadeIn();
-
-   //          i = setTimeout(function () {
-   //          nav.fadeOut();
-   //          }, 2500);
-   //       }
-   //    })
+   //    setInterval(()=>{
+   //       console.log(this.player.current.getCurrentTime());
+   //    },1000)
+   //    // console.log(document.querySelector('#video-player'));
    // }
-   componentDidMount(){
-      setInterval(()=>{
-         console.log(this.player.current.getCurrentTime());
-      },1000)
-      // console.log(document.querySelector('#video-player'));
-   }
 	render() {
       // console.log(this.player);
 		return (
 			<Background>
-         {(this.props.url)?<ReactPlayer
-         ref={this.player} id="video-player" url={this.props.url} width={window.innerWidth} height={window.innerHeight} controls={true}/>:this.fallback()}
+         {(this.state.url)?<ReactPlayer
+         ref={this.player} id="video-player" url={this.state.url} width={window.innerWidth} height={window.innerHeight} controls={true}/>:this.fallback()}
 
          </Background>
 			
