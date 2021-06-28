@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player';
 import styled from 'styled-components'
+import DOMPurify from "dompurify";
 const urlparser= require("urlparser");
 
 export default class RoomPage extends Component {
    constructor(props) {
 		super(props);
-      let vrl=urlparser.parse(window.location.toString()).query.params.vrl;
+      let b64_vs=urlparser.parse(window.location.toString()).query.params.vs;
+      let vrl=window.atob(b64_vs)||null;
+      console.log({b64_vs,vrl});
       this.state={
          playing:true,
          duration: 0,
          controls:true,
-         url:vrl||null,
+         url:DOMPurify.sanitize(vrl)||null,
       }
       this.player=React.createRef();
       this.setState({url: this.props.url});
@@ -35,12 +38,11 @@ export default class RoomPage extends Component {
    //    // console.log(document.querySelector('#video-player'));
    // }
 	render() {
-      // console.log(this.player);
+      console.log(this.state.url);
 		return (
 			<Background>
          {(this.state.url)?<ReactPlayer
          ref={this.player} id="video-player" url={this.state.url} width={window.innerWidth} height={window.innerHeight} controls={true}/>:this.fallback()}
-
          </Background>
 			
 		)

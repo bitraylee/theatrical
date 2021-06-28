@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import ArrowForward from "@material-ui/icons/ArrowForward";
 import randomstring from "randomstring";
+import DOMPurify from "dompurify";
 
 export default function SearchPage() {
   const Background = styled.div`
@@ -71,30 +72,40 @@ export default function SearchPage() {
     }
   `;
 
+  const [url, setUrl] = useState("");
+
   // submit query
-  function createRoom() {
-    const roomid = randomstring.generate({length: 8});
-    console.log(roomid);
-    const vrl ="https://drive.google.com/u/0/uc?id=1wuAUcidfF59Rfo0HihJ0cAovtxCrWmg9&export=download";
-    window.location = `/room/${roomid}?vrl=${vrl}`;
+  function createRoom(e) {
+    e.preventDefault();
+    const roomid = randomstring.generate({ length: 8 });
+    // FIXME: temporary hack: converting URL to base64 string
+    const video_source = window.btoa(DOMPurify.sanitize( url ));
+    alert(`vs=${video_source}`);
+    window.location = `/room/${roomid}?vs=${video_source}`;
   }
 
   return (
     <Background>
-      <div className="input-field-container">
-        <input
-          required
-          id="vidurl"
-          className="url-src"
-          type="text"
-          name="vsrc"
-          placeholder="Paste the Video URL here."
-        />
-        <button onClick={createRoom} className="submit">
-          <h3>GO</h3>
-          <ArrowForward></ArrowForward>
-        </button>
-      </div>
+      <form onSubmit={createRoom}>
+        <div className="input-field-container">
+          <input
+            required
+            id="vidurl"
+            className="url-src"
+            type="text"
+            name="vsrc"
+            placeholder="Paste the Video URL here."
+            onChange={(e) => setUrl(e.target.value)}
+            value={url}
+          />
+          <button
+            className="submit"
+          >
+            <h3>GO</h3>
+            <ArrowForward></ArrowForward>
+          </button>
+        </div>
+      </form>
     </Background>
   );
 }
