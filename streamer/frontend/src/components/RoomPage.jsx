@@ -44,7 +44,6 @@ export default class RoomPage extends Component {
          {(this.state.url)?<ReactPlayer
          ref={this.player} id="video-player" url={this.state.url} width={window.innerWidth} height={window.innerHeight} controls={true}/>:this.fallback()}
          </Background>
-			
 		)
 	}
 }
