@@ -8,6 +8,6 @@ this template demonstrates very simple TODO list REST API
 
 ## Run server
 
-- with nodemon: `npm run dev`
+-  with nodemon: `npm run dev`
 
-- without nodemon: `npm run start`
+-  without nodemon: `npm run start`
