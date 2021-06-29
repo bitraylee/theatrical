@@ -3,7 +3,6 @@ import styled from "styled-components";
 import ArrowForward from "@material-ui/icons/ArrowForward";
 import randomstring from "randomstring";
 import DOMPurify from "dompurify";
-import axios from "axios";
 
 export default function SearchPage() {
   const Background = styled.div`
@@ -78,20 +77,11 @@ export default function SearchPage() {
   // submit query
   function createRoom(e) {
     e.preventDefault();
-    axios({
-      method: 'post',
-      url: 'http://localhost:3100/createRoom',
-      data: {
-        vsrc: url,
-      }
-    }).catch((err)=>{
-      console.log(err);
-    });
-    // const roomid = randomstring.generate({ length: 8 });
+    const roomid = randomstring.generate({ length: 8 });
     // FIXME: temporary hack: converting URL to base64 string
-    // const video_source = window.btoa(DOMPurify.sanitize( url ));
-    // alert(`vs=${video_source}`);
-    // window.location = `/room/${roomid}?vs=${video_source}`;
+    const video_source = window.btoa(DOMPurify.sanitize( url ));
+    alert(`vs=${video_source}`);
+    window.location = `/room/${roomid}?vs=${video_source}`;
   }
 
   return (
