@@ -13,27 +13,29 @@ let video_src;
 let rooms = {};
 
 // TODO: change it to post request
-app.get("/createroom", (req, res) => {
+app.post("/createroom", (req, res) => {
   let roomid;
   while (1) {
     roomid = randomstring.generate(8);
     if (!rooms.hasOwnProperty(roomid)) break;
   }
   video_src = req.body.vsrc;
-  rooms[roomid] = { vrsc: video_src };
-  console.log({ roomid, video_src });
-  res.redirect(`/room/${roomid}?vs=${video_src}`);
+  rooms[roomid] = { vrsc: video_src, members: [] };
+  res.status(200).send({ ok: true, roomid: roomid });
+  //   console.log({ roomid, video_src });
+  //   res.redirect(`/room/${roomid}?vs=${video_src}`);
 });
 
-app.get("/room/:id", (req, res) => {
-  let id = req.params.id || null;
-  if (!rooms.hasOwnProperty(id)) {
-    console.log("redirect");
-    // redirect to search page
-    res.redirect("http://locahost:3000/");
-    return;
-  }
-  res.status(200).send({ vsrc: video_src, room: id });
+// verify room
+app.post("/verify", (req, res) => {
+  let data = {
+    ok: false,
+    rd={}
+  };
+  let id = req.body.rid || null;
+  if (rooms.hasOwnProperty(id)) data.ok = true;
+  if (data.ok) data.rd=rooms[id];
+  res.status(200).send(data);
 });
 
 // start server
